@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="author" content="octopanda" />
+    <title>Octopanda</title>
+  </head>
+  <body>
+    <!-- Professional JavaScript for Web Developers -->
+    <!-- Chapter Six - Object-oriented Programming -->
+    <!--
+      // Create an object.
+      var person = new Object();
+      person.name = "Nicholas";
+      person.age = 29;
+      person.job = "Software Engineer";
+      person.sayName = function() {
+        document.write(this.name);
+      };
+      person.sayName();
+      
+      // Create object by Factory Pattern.
+      function createPerson(name, age, job) {
+        var o = new Object();
+        o.name = name;
+        o.age = age;
+        o.job = job;
+        o.sayName = function() {
+          document.write(this.name);
+        };
+        return o;
+      }
+      var nicholas = createPerson("Nicholas", 29, "Software Engineer");
+      var greg = createPerson("Greg", 27, "Doctor");
+      nicholas.sayName();
+      greg.sayName();
+      
+      // Create object by Constructor Pattern.
+      function Person(name, age, job) {
+        this.name = name;
+        this.age = age;
+        this.job = job;
+        this.sayName = function() {
+          document.write(this.name);
+        };
+      }
+      var nicholas = new Person("Nicholas", 29, "Software Engineer");
+      var greg = new Person("Greg", 27, "Doctor");
+      nicholas.sayName();
+      greg.sayName();
+      document.write("<br />");
+      document.write(nicholas.constructor == Person);
+      document.write(greg.constructor == Person);
+      document.write("<br />");
+      document.write(nicholas instanceof Object);
+      document.write(nicholas instanceof Person);
+      document.write("<br />");
+      document.write(greg instanceof Object);
+      document.write(greg instanceof Person);
+      document.write("<br />");
+      var person = new Person("Nicholas", 29, "Software Engineer");
+      person.sayName();
+      document.write("<br />");
+      Person("Greg", 27, "Doctor");
+      window.sayName();
+      document.write("<br />");
+      var o = new Object();
+      Person.call(o, "Kristen", 25, "Nurse");
+      o.sayName();
+      
+      // Any questions for Constructor Pattern.
+      function PersonPre(name, age, job) {
+        this.name = name;
+        this.age = age;
+        this.job = job;
+        this.sayName = new Function("document.write(this.name)");
+      }
+      var nicholas_pre = new PersonPre("Nicholas", 29, "Software Engineer");
+      var greg_pre = new PersonPre("Greg", 27, "Doctor");
+      document.write(nicholas_pre.sayName == greg_pre.sayName);
+      function sayName() {
+        document.write(this.name);
+      }
+      function Person(name, age, job) {
+        this.name = name;
+        this.age = age;
+        this.job = job;
+        this.sayName = sayName;
+      }
+      var nicholas = new Person("Nicholas", 29, "Software Engineer");
+      var greg = new Person("Greg", 27, "Doctor");
+      document.write("<br />");
+      nicholas.sayName();
+      greg.sayName();
+      document.write("<br />");
+      document.write(nicholas.sayName == greg.sayName);
+     -->
+    <script type="text/javascript">
+      // Create object by Prototype Pattern.
+      function Person() {}
+      Person.prototype.name = "Nicholas";
+      Person.prototype.age = 29;
+      Person.prototype.job = "Software Engineer";
+      Person.prototype.sayName = function() {
+    	  document.write(this.name);
+      };
+      var nicholas_a = new Person();
+      var nicholas_b = new Person();
+      document.write(nicholas_a.sayName == nicholas_b.sayName);
+    </script>
+  </body>
+</html>
