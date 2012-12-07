@@ -94,19 +94,76 @@
       greg.sayName();
       document.write("<br />");
       document.write(nicholas.sayName == greg.sayName);
-     -->
-    <script type="text/javascript">
+      
       // Create object by Prototype Pattern.
       function Person() {}
       Person.prototype.name = "Nicholas";
       Person.prototype.age = 29;
       Person.prototype.job = "Software Engineer";
       Person.prototype.sayName = function() {
-    	  document.write(this.name);
+        document.write(this.name);
       };
       var nicholas_a = new Person();
       var nicholas_b = new Person();
       document.write(nicholas_a.sayName == nicholas_b.sayName);
+      document.write(Person.prototype.isPrototypeOf(nicholas_a));
+      document.write(Person.prototype.isPrototypeOf(nicholas_b));
+      
+      // Property come from prototype or example.
+      function Person() {}
+      Person.prototype.name = "Nicholas";
+      Person.prototype.age = 29;
+      Person.prototype.job = "Software Engineer";
+      Person.prototype.sayName = function() {
+        document.write(this.name);        
+      };
+      var nicholas = new Person();
+      var greg = new Person();
+      greg.name = "Greg";
+      nicholas.sayName();
+      greg.sayName();
+      
+      // When the property of the example was deleted.
+      function Person() {}
+      Person.prototype.name = "Nicholas";
+      Person.prototype.age = 29;
+      Person.prototype.job = "Software Engineer";
+      Person.prototype.sayName = function() {
+        document.write(this.name);        
+      };
+      var nicholas = new Person();
+      var greg = new Person();
+      greg.name = "Greg";
+      nicholas.sayName();
+      greg.sayName();
+      document.write("<br />");
+      delete greg.name;
+      nicholas.sayName();
+      greg.sayName();
+      
+      // Whether the property come from the example.
+      function Person() {}
+      Person.prototype.name = "Nicholas";
+      Person.prototype.age = 29;
+      Person.prototype.job = "Software Engineer";
+      Person.prototype.sayName = function() {
+        document.write(this.name);        
+      };
+      var nicholas = new Person();
+      var greg = new Person();
+      nicholas.sayName();
+      document.write(nicholas.hasOwnProperty("name"));
+      document.write("<br />");
+      nicholas.name = "Greg";
+      nicholas.sayName();
+      document.write(nicholas.hasOwnProperty("name"));
+      document.write("<br />");
+      delete nicholas.name;
+      nicholas.sayName();
+      document.write(nicholas.hasOwnProperty("name"));
+    -->
+    <script type="text/javascript">
+      
     </script>
   </body>
 </html>
