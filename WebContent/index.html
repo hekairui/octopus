@@ -153,14 +153,154 @@
       var greg = new Person();
       nicholas.sayName();
       document.write(nicholas.hasOwnProperty("name"));
+      document.write("name" in nicholas);
       document.write("<br />");
       nicholas.name = "Greg";
       nicholas.sayName();
       document.write(nicholas.hasOwnProperty("name"));
+      document.write("name" in greg);
       document.write("<br />");
       delete nicholas.name;
       nicholas.sayName();
       document.write(nicholas.hasOwnProperty("name"));
+      document.write("name" in nicholas);
+      
+      // Prototype and operator "in".
+      function hasPrototypeProperty(object, name) {
+        return !object.hasOwnProperty(name) && (name in object);
+      }
+      function Person() {}
+      Person.prototype.name = "Nicholas";
+      Person.prototype.age = 29;
+      Person.prototype.job = "Software Engineer";
+      Person.prototype.sayName = function() {
+        document.write(this.name);
+      };
+      var person = new Person();
+      document.write(hasPrototypeProperty(person, "name"));
+      person.name = "Greg";
+      document.write(hasPrototypeProperty(person, "name"));
+      
+      // Prototype and operator "for-in".
+      var o = {
+        toString : function() {
+          return "My Object";
+        }
+      };
+      for (var prop in o) {
+        if (prop == "toString") {
+          document.write("Found toString");
+        }
+      }
+      
+      // Simpler prototype grammar.
+      function Person() {}
+      Person.prototype = {
+        name : "Nicholas",
+        age : 29,
+        job : "Software Engineer",
+        sayName : function() {
+          document.write(this.name);
+        }
+      };
+      var person = new Person();
+      document.write(person instanceof Object);
+      document.write(person instanceof Person);
+      document.write(person.constructor == Object);
+      document.write(person.constructor == Person);
+      
+      // Simpler prototype grammar with constructor.
+      function Person() {}
+      Person.prototype = {
+        constructor : Person,
+        name : "Nicholas",
+        age : 29,
+        job : "Software Engineer",
+        sayName : function() {
+          document.write(this.name);
+        }
+      };
+      var person = new Person();
+      document.write(person instanceof Object);
+      document.write(person instanceof Person);
+      document.write(person.constructor == Object);
+      document.write(person.constructor == Person);
+      
+      // Dynamic prototype
+      function Person() {}
+      var person = new Person();
+      Person.prototype.sayHi = function() {
+        document.write("Hi!");
+      };
+      person.sayHi();
+      
+      // Example point to prototype instead of constructor.
+      function Person() {}
+      var person = new Person();
+      Person.prototype = {
+        constructor : Person,
+        name : "Nicholas",
+        age : 29,
+        job : "Software Engineer",
+        sayName : function() {
+          document.write(this.name);
+        }
+      };
+      person.sayName();
+      
+      // Native objects' prototype
+      document.write(typeof Array.prototype.sort);
+      document.write(typeof String.prototype.substring);
+      String.prototype.startsWith = function (text) {
+        return this.indexOf(text) == 0;
+      };
+      var msg = "Hello world!";
+      document.write(msg.startsWith("Hello"));
+      
+      // Only use the prototype pattern have some question.
+      function Person() {}
+      Person.prototype = {
+        constructor : Person,
+        name : "Nicholas",
+        age : 29,
+        job : "Software Engineer",
+        friends : ["Shelby", "Court"],
+        sayName : function() {
+          document.write(this.name);
+        }
+      };
+      var nicholas = new Person();
+      var greg = new Person();
+      nicholas.friends = Person.prototype.friends.concat("Van");
+      document.write(nicholas.friends);
+      document.write("<br />");
+      document.write(greg.friends);
+      document.write("<br />");
+      document.write(nicholas.friends == greg.friends);
+      
+      // Mixed use the constructor pattern and prototype pattern.
+      function Person(name, age, job) {
+        this.name = name;
+        this.age = age;
+        this.job = job;
+        this.friends = ["Shelby", "Court"];
+      }
+      Person.prototype = {
+        constructor : Person,
+        sayName : function() {
+          document.write(this.name);
+        }
+      };
+      var nicholas = new Person("Nicholas", 29, "Software Engineer");
+      var greg = new Person("Greg", 29, "Doctor");
+      nicholas.friends.push("Van");
+      document.write(nicholas.friends);
+      document.write("<br />");
+      document.write(greg.friends);
+      document.write("<br />");
+      document.write(nicholas.friends == greg.friends);
+      document.write("<br />");
+      document.write(nicholas.sayName == greg.sayName);
     -->
     <script type="text/javascript">
       
