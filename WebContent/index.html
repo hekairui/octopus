@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html>
-  <head>
+  <head>  
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="author" content="octopanda" />
     <title>Octopanda</title>
   </head>
   <body>
     <!-- Professional JavaScript for Web Developers -->
-    <!-- Chapter Six - Object-oriented Programming -->
+    <!-- Chapter Six -->
+    <!-- Object-oriented Programming -->
     <!--
       // Create an object.
       var person = new Object();
@@ -301,6 +302,81 @@
       document.write(nicholas.friends == greg.friends);
       document.write("<br />");
       document.write(nicholas.sayName == greg.sayName);
+      
+      // Dynamic prototype pattern.
+      function Person(name, age, job) {
+        this.name = name;
+        this.age = age;
+        this.job = job;
+        if (typeof this.sayName != "function") {
+          Person.prototype.sayName = function() {
+            document.write(this.name);
+          };
+        }
+      }
+      var person = new Person("Nicholas", 29, "Software Engineer");
+      person.sayName();
+      
+      // Parasitic constructor pattern.
+      function Person(name, age, job) {
+        var o = new Object();
+        o.name = name;
+        o.age = age;
+        o.job = job;
+        o.sayName = function() {
+          document.write(this.name);
+        };
+        return o;
+      }
+      var person = new Person("Nicholas", 29, "Software Engineer");
+      person.sayName();
+      document.write("<br />");
+      function SpecialArray() {
+        var values = new Array();
+        values.push.apply(values, arguments);
+        values.toPipedString = function() {
+          return this.join(" | ");
+        };
+        return values;
+      }
+      var colors = new SpecialArray("red", "blue", "green");
+      document.write(colors.toPipedString());
+      
+      // Durable constructor pattern.
+      function Person(name, age, job) {
+        var o = new Object();
+        o.sayName = function() {
+          document.write(name);
+        };
+        return o;
+      }
+      var person = Person("Nicholas", 29, "Software Engineer");
+      person.sayName();
+      
+      //Prototype chain's basic pattern.
+      function SuperType() {
+        this.property = true;
+      }
+      SuperType.prototype.getSuperValue = function() {
+        return this.property;
+      };
+      function SubType() {
+        this.subproperty = false;
+      }
+      SubType.prototype = new SuperType();
+      SubType.prototype.getSubValue = function() {
+        return this.subproperty;
+      };
+      var instance = new SubType();
+      document.write(instance.getSuperValue());
+      document.write("<br />");
+      document.write(instance instanceof Object);
+      document.write(instance instanceof SuperType);
+      document.write(instance instanceof SubType);
+      document.write("<br />");
+      document.write(Object.prototype.isPrototypeOf(instance));
+      document.write(SuperType.prototype.isPrototypeOf(instance));
+      document.write(SubType.prototype.isPrototypeOf(instance));
     -->
     <script type="text/javascript">
       
