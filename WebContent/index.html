@@ -69,7 +69,7 @@
       Person.call(o, "Kristen", 25, "Nurse");
       o.sayName();
       
-      // Any questions for Constructor Pattern.
+      // Some questions for Constructor Pattern.
       function PersonPre(name, age, job) {
         this.name = name;
         this.age = age;
@@ -110,7 +110,7 @@
       document.write(Person.prototype.isPrototypeOf(nicholas_a));
       document.write(Person.prototype.isPrototypeOf(nicholas_b));
       
-      // Property come from prototype or example.
+      // Property come from prototype or instance.
       function Person() {}
       Person.prototype.name = "Nicholas";
       Person.prototype.age = 29;
@@ -124,7 +124,7 @@
       nicholas.sayName();
       greg.sayName();
       
-      // When the property of the example was deleted.
+      // When the property of the instance was deleted.
       function Person() {}
       Person.prototype.name = "Nicholas";
       Person.prototype.age = 29;
@@ -142,7 +142,7 @@
       nicholas.sayName();
       greg.sayName();
       
-      // Whether the property come from the example.
+      // Whether the property come from the instance.
       function Person() {}
       Person.prototype.name = "Nicholas";
       Person.prototype.age = 29;
@@ -235,7 +235,7 @@
       };
       person.sayHi();
       
-      // Example point to prototype instead of constructor.
+      // Instance point to prototype instead of constructor.
       function Person() {}
       var person = new Person();
       Person.prototype = {
@@ -353,7 +353,7 @@
       var person = Person("Nicholas", 29, "Software Engineer");
       person.sayName();
       
-      //Prototype chain's basic pattern.
+      // Prototype chain's basic pattern.
       function SuperType() {
         this.property = true;
       }
@@ -377,9 +377,106 @@
       document.write(Object.prototype.isPrototypeOf(instance));
       document.write(SuperType.prototype.isPrototypeOf(instance));
       document.write(SubType.prototype.isPrototypeOf(instance));
+      
+      // Carefully define methods.
+      function SuperType() {
+        this.property = true;
+      }
+      SuperType.prototype.getSuperValue = function() {
+        return this.property;
+      };
+      function SubType() {
+        this.subproperty = false;
+      }
+      SubType.prototype = new SuperType();
+      SubType.prototype.getSubValue = function() {
+        return this.subproperty;
+      };
+      SubType.prototype.getSuperValue = function() {
+        return false;
+      };
+      var instance = new SubType();
+      document.write(instance.getSuperValue());
+      
+      // Do not define methods use the literal.
+      function SuperType() {
+        this.property = true;
+      }
+      SuperType.prototype.getSuperValue = function() {
+        return this.property;
+      };
+      function SubType() {
+        this.subproperty = false;
+      }
+      SubType.prototype = new SuperType();
+      SubType.prototype = {
+        getSubValue : function() {
+          return this.subproperty;
+        },
+        someOtherMethod : function() {
+          return false;
+        }
+      };
+      var instance = new SubType();
+      document.write(instance.getSuperValue());
+      
+      // Some questions for Prototype Chain.
+      function SuperType() {
+        this.colors = ["red", "blue", "green"];
+      }
+      function SubType() {}
+      SubType.prototype = new SuperType();
+      var instanceA = new SubType();
+      instanceA.colors.push("black");
+      document.write(instanceA.colors);
+      document.write("<br />");
+      instanceB = new SubType();
+      document.write(instanceB.colors);
+      
+      // Constructor Stealing.
+      function SuperType(name) {
+        this.name = name;
+        this.colors = ["red", "blue", "green"];
+      }
+      function SubType() {
+        SuperType.call(this, "Nicholas");
+        this.age = 29;
+      }
+      var instanceA = new SubType();
+      instanceA.colors.push("black");
+      document.write(instanceA.colors);
+      document.write("<br />");
+      var instanceB = new SubType();
+      document.write(instanceB.colors);
+      document.write("<br />");
+      document.write("name : " + instanceA.name + ". age : " + instanceB.age);
     -->
     <script type="text/javascript">
-      
+      function SuperType(name) {
+    	  this.name = name;
+    	  this.colors = ["red", "blue", "green"];
+      }
+      SuperType.prototype.sayName = function() {
+    	  document.write(this.name);
+      };
+      function SubType(name, age) {
+    	  SuperType.call(this, name);
+    	  this.age = age;
+      }
+      SubType.prototype = new SuperType();
+      SubType.prototype.sayAge = function() {
+    	  document.write(this.age);
+      };
+      var nicholas = new SubType("Nicholas", 29);
+      nicholas.colors.push("black");
+      document.write(nicholas.colors);
+      nicholas.sayName();
+      nicholas.sayAge();
+      document.write("<br />");
+      var greg = new SubType("Greg", 27);
+      document.write(greg.colors);
+      greg.sayName();
+      greg.sayAge();
     </script>
   </body>
 </html>
